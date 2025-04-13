@@ -177,9 +177,9 @@ bool SimpleEQAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* SimpleEQAudioProcessor::createEditor()
 {
-    // return new SimpleEQAudioProcessorEditor (*this);
+    return new SimpleEQAudioProcessorEditor (*this);
     // Here I add a generic GUI to test the funct. By default it would have used the hello world example
-    return new juce::GenericAudioProcessorEditor(*this);
+    // return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
