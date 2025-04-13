@@ -40,13 +40,27 @@ private:
 
 
     CustomRotarySlider peakFreqSlider,
-    peakGainSlider,
-    peakQualitySlider,
-    lowCutFreqSlider,
-    highCutFreqSlider,
-    lowCutSlopeSlider,
-    highCutSlopeSlider;
+        peakGainSlider,
+        peakQualitySlider,
+        lowCutFreqSlider,
+        highCutFreqSlider,
+        lowCutSlopeSlider,
+        highCutSlopeSlider;
     
+    // Juce tiene una clase para conectar los sliders a los parametros pero es muy largo
+    // el nombre y aqui lo mapeamos a algo mas sencillo
+
+    using APVTS = juce::AudioProcessorValueTreeState;
+    using Attachment = APVTS::SliderAttachment;
+
+    Attachment peakFreqSliderAttachment,
+        peakGainSliderAttachment,
+        peakQualitySliderAttachment,
+        lowCutFreqSliderAttachment,
+        highCutFreqSliderAttachment,
+        lowCutSlopeSliderAttachment,
+        highCutSlopeSliderAttachment;
+
     // Creo un vector para todos estos sliders para poder iterar sobre ellos.
     std::vector<juce::Component*> getComps();
 
