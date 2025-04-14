@@ -11,6 +11,8 @@
 #include <JuceHeader.h>
 #include <vector>
 #include "PluginProcessor.h"
+#include "juce_audio_processors/juce_audio_processors.h"
+#include "juce_events/juce_events.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 struct CustomRotarySlider : juce::Slider{
@@ -23,7 +25,9 @@ struct CustomRotarySlider : juce::Slider{
 //==============================================================================
 /**
 */
-class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor
+class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor,
+juce::AudioProcessorParameter::Listener,
+juce::Timer
 {
 public:
     SimpleEQAudioProcessorEditor (SimpleEQAudioProcessor&);
@@ -33,10 +37,16 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void parameterValueChanged (int parameterIndex, float newValue) override;
+    void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override{}
+    void timerCallback() override;
+
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     SimpleEQAudioProcessor& audioProcessor;
+
+    juce::Atomic<bool> parametersChanged {false};
 
 
     CustomRotarySlider peakFreqSlider,
@@ -63,7 +73,8 @@ private:
 
     // Creo un vector para todos estos sliders para poder iterar sobre ellos.
     std::vector<juce::Component*> getComps();
-
+    
+    MonoChain monoChain;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessorEditor)
 };
